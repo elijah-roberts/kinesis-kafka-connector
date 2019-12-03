@@ -3,6 +3,7 @@ package com.amazon.kinesis.kafka;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.TopicPartition;
@@ -128,7 +129,7 @@ public class AmazonKinesisSinkTask extends SinkTask {
 			if (sinkRecord.key() != null && !sinkRecord.key().toString().trim().equals("")) {
 				partitionKey = sinkRecord.key().toString().trim();
 			} else {
-				partitionKey = Integer.toString(sinkRecord.kafkaPartition());
+				partitionKey = "" + ThreadLocalRandom.current().nextDouble(1000000);
 			}
 
 			if (singleKinesisProducerPerPartition)
